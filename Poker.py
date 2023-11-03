@@ -1,3 +1,8 @@
+import random
+import pygame
+
+
+
 class Kaart:
     def __init__(self, kleur, naam):
         self.kleur = kleur
@@ -7,29 +12,6 @@ class Kaart:
         print(f"{self.kleur} {self.naam}")
     def get(self):
         return (self.kleur, self.naam)
-
-namen = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "B", "V", "H", "A")
-kleuren = ("Harten", "Klaveren", "Ruiten", "Schoppen")
-kaarten = []
-for naam in namen:
-    for kleur in kleuren:
-        kaarten.append(kaartspel.Kaart(kleur, naam))
-KARTEN = tuple(kaarten)
-dek = list(KARTEN)
-import random
-import pygame
-
-pygame.font.init()
-GLOBAL_FONT = pygame.font.SysFont("calibri", 18)
-WIDTH, HEIGTH = 900, 500
-WIN = pygame.display.set_mode((WIDTH, HEIGTH))
-pygame.display.set_caption("HEEEEEEEEEEEEEEELP")
-WHITE = (255, 255, 255)
-YELLOW = (255, 255, 0)
-BLACK = (0, 0, 0)
-FPS = 60
-Spelers = {}
-
 
 class Speler:
     def __init__(self, naam, starterskapitaal, prioriteit):
@@ -66,6 +48,31 @@ class Speler:
         return pot+inzet
     def moneys(self):
         return self.geld
+
+
+namen = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "B", "V", "H", "A")
+kleuren = ("Harten", "Klaveren", "Ruiten", "Schoppen")
+kaarten = []
+for naam in namen:
+    for kleur in kleuren:
+        kaarten.append(kaartspel.Kaart(kleur, naam))
+KARTEN = tuple(kaarten)
+dek = list(KARTEN)
+
+
+pygame.font.init()
+GLOBAL_FONT = pygame.font.SysFont("calibri", 18)
+WIDTH, HEIGTH = 900, 500
+WIN = pygame.display.set_mode((WIDTH, HEIGTH))
+pygame.display.set_caption("HEEEEEEEEEEEEEEELP")
+WHITE = (255, 255, 255)
+YELLOW = (255, 255, 0)
+BLACK = (0, 0, 0)
+FPS = 60
+Spelers = {}
+
+
+
 
 def main():
     print("Starting...")
