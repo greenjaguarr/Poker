@@ -2,7 +2,7 @@ import random
 import pygame
 
 
-
+#Mark is de goat
 class Kaart:
     def __init__(self, kleur, naam):
         self.kleur = kleur
