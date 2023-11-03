@@ -13,6 +13,7 @@ class Kaart:
     def get(self):
         return (self.kleur, self.naam)
 
+
 class Speler:
     def __init__(self, naam, starterskapitaal, prioriteit):
         self.hand = []
