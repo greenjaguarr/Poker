@@ -194,14 +194,34 @@ def setup(aantal_spelers, clock):
 def potje(Spelers,deler,aantal_spelers):
     pot=0 #keep track of pot
     potje_bezig=True
+    for speler in Spelers:         #Deel kaarten uit
+        Spelers[speler].pak_kaarten()
     aan_de_beurt=increment(deler,aantal_spelers)
     small=aan_de_beurt
-    pot=Spelers['Speler '+str(small)].zet_in(1,pot)
+    pot=Spelers['Speler '+str(small+1)].zet_in(1,pot)
     aan_de_beurt=increment(deler,aantal_spelers)
     big=aan_de_beurt
-    pot=Spelers['Speler '+str(big)].zet_in(2,pot)
+    pot=Spelers['Speler '+str(big+1)].zet_in(2,pot)
+    
+    midden=[]
+    kaart1=random.choice(dek)  # raise error als dek te weinig kaarten heeft???
+    dek.remove(kaart1)
+    kaart2=random.choice(dek)  # raise error als dek te weinig kaarten heeft???
+    dek.remove(kaart2)
+    kaart3=random.choice(dek)  # raise error als dek te weinig kaarten heeft???
+    dek.remove(kaart3)
+    midden.append(kaart1)
+    midden.append(kaart2)
+    midden.append(kaart3)
+    
     while potje_bezig:
-        aan_de_beurt=increment(deler,aantal_spelers) #Hier ben ik gebleven
+        aan_de_beurt=increment(deler,aantal_spelers)
+        speler = Spelers['Speler '+str(aan_de_beurt)] #Get the Speler object die nu aan de beurt is
+        for kaart in speler.hand: #extraheer welke kaarten de speler in zn handen heeft in losse variables
+            kaart1 = kaart.get() # geeft tuple in de vorm (kleur, naam)
+            kaart2 = kaart.get()
+        #[extract functie hier om de kaarten in het midden, de kaarten in de hand, de pot, het geld van de speler en welke andere spelers nog mee doen te laten zien. 
+        #Pak user input om te kiezen voor raise,check of pas. Check of het een valide input is.]
 
 
 
