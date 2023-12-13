@@ -1,54 +1,9 @@
 import random
 import pygame
-
-
+from kaartspel import Kaart
+from speler import Speler
 #Mark is de goat
-class Kaart:
-    def __init__(self, kleur, naam):
-        self.kleur = kleur
-        self.naam = naam
 
-    def show(self):
-        print(f"{self.kleur} {self.naam}")
-    def get(self):
-        return (self.kleur, self.naam)
-
-
-class Speler:
-    def __init__(self, naam, starterskapitaal, prioriteit):
-        self.hand = []
-        self.naam = naam
-        self.geld = starterskapitaal
-        self.prioriteit = prioriteit
-        self.bij=True
-
-    def inHand(self):  # Returns tuple of cards in hand
-        return tuple(self.hand)
-
-    def pak_kaarten(self):  # pakt 2 random kaarten en haalt die uit dek
-        self.kaart1 = random.choice(
-            dek
-        )  # raise error als dek te weinig kaarten heeft???
-        dek.remove(self.kaart1)
-        self.kaart2 = random.choice(dek)
-        dek.remove(self.kaart2)
-        self.hand.append(self.kaart1)
-        self.hand.append(self.kaart2)
-
-    def leg_kaarten_terug(self):
-        self.kaart1 = self.hand[0]
-        self.kaart2 = self.hand[1]
-        self.hand.clear()
-        dek.append(self.kaart1)
-        dek.append(self.kaart2)
-
-    def ontvang_pot(self,pot):
-        self.geld+=pot
-    def zet_in(self,inzet,pot): #raise error als te weinig geld?
-        self.geld-=inzet
-        return pot+inzet
-    def moneys(self):
-        return self.geld
 
 
 namen = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "B", "V", "H", "A")
@@ -56,7 +11,7 @@ kleuren = ("Harten", "Klaveren", "Ruiten", "Schoppen")
 kaarten = []
 for naam in namen:
     for kleur in kleuren:
-        kaarten.append(kaartspel.Kaart(kleur, naam))
+        kaarten.append(Kaart(kleur, naam))
 KARTEN = tuple(kaarten)
 dek = list(KARTEN)
 
@@ -113,7 +68,7 @@ def draw():
 PADDING = 10
 
 
-def startscreen(clock):
+def startscreen(clock)->int:
     WIN.fill(BLACK)
     tekst1 = GLOBAL_FONT.render("Welkom bij poker", 1, WHITE)
     tekst2 = GLOBAL_FONT.render("Typ het aantal spelers", 1, WHITE)
@@ -123,6 +78,7 @@ def startscreen(clock):
     # aantal_spelers=input(" ")
     input_given = False
     print("waiting for input")
+    aantal_spelers=0        #initialize variable
     while not input_given:
         clock.tick(FPS)
         print("in while loop code 1")
@@ -171,7 +127,7 @@ def increment(i,max):
 def setup(aantal_spelers, clock):
     for i in range(aantal_spelers):
         key = "speler " + str(i + 1)
-        value = Speler("Spler " + str(i + 1), 200, i)
+        value = Speler("Spler " + str(i + 1), 200)
         Spelers.update({key: value})
     print(Spelers)
     WIN.fill(BLACK)
@@ -232,5 +188,5 @@ def potje(Spelers,deler,aantal_spelers):
         #Pak user input om te kiezen voor raise,check of pas. Check of het een valide input is.]
 
 
-
-main()
+if __name__ == '__main__':
+    main()
