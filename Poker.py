@@ -2,6 +2,7 @@ import random
 import pygame
 from kaartspel import Kaart
 from speler import Speler
+import sys
 #Mark is de goat
 
 
@@ -16,10 +17,11 @@ KARTEN = tuple(kaarten)
 dek = list(KARTEN)
 
 
+pygame.init()
 pygame.font.init()
 GLOBAL_FONT = pygame.font.SysFont("calibri", 18)
-WIDTH, HEIGTH = 900, 500
-WIN = pygame.display.set_mode((WIDTH, HEIGTH))
+WIDTH, HEIGHT = 900, 500
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("HEEEEEEEEEEEEEEELP")
 WHITE = (255, 255, 255)
 YELLOW = (255, 255, 0)
@@ -67,93 +69,80 @@ def draw():
 
 PADDING = 10
 
-
-def startscreen(clock)->int:
+def draw_startscreen()->None:
+    '''This function draws the start screen, obviously.
+    side effects: alters the display
+    :return: None'''
     WIN.fill(BLACK)
     tekst1 = GLOBAL_FONT.render("Welkom bij poker", 1, WHITE)
     tekst2 = GLOBAL_FONT.render("Typ het aantal spelers", 1, WHITE)
     WIN.blit(tekst1, (PADDING, PADDING))
     WIN.blit(tekst2, (PADDING, PADDING + tekst1.get_height()))
-    pygame.display.update()
-    # aantal_spelers=input(" ")
-    input_given = False
-    print("waiting for input")
-    aantal_spelers=0        #initialize variable
-    while not input_given:
+    pygame.display.flip()
+
+
+def startscreen(clock)->int:
+    while True:
+        draw_startscreen()
         clock.tick(FPS)
         print("in while loop code 1")
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print("de game is klaar")
                 pygame.quit()
-        keys_pressed = pygame.key.get_pressed()
-        if keys_pressed[pygame.K_2] == True:
-            print("valid value pressed")
-            aantal_spelers = 2
-            input_given = True
-        if keys_pressed[pygame.K_3] == True:
-            print("valid value pressed")
-            aantal_spelers = 3
-            input_given = True
-        if keys_pressed[pygame.K_4] == True:
-            print("valid value pressed")
-            aantal_spelers = 4
-            input_given = True
-        if keys_pressed[pygame.K_5] == True:
-            print("valid value pressed")
-            aantal_spelers = 5
-            input_given = True
-        if keys_pressed[pygame.K_6] == True:
-            print("valid value pressed")
-            aantal_spelers = 6
-            input_given = True
-        if keys_pressed[pygame.K_7] == True:
-            print("valid value pressed")
-            aantal_spelers = 7
-            input_given = True
-        if keys_pressed[pygame.K_8] == True:
-            print("valid value pressed")
-            aantal_spelers = 8
-            input_given = True
-        if keys_pressed[pygame.K_9] == True:
-            print("valid value pressed")
-            aantal_spelers = 9
-            input_given = True
-    print(f"Het aantal spelers is {aantal_spelers}")
-    return aantal_spelers
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+
+                keys_pressed = pygame.key.get_pressed()
+                if keys_pressed[pygame.K_2] == True:
+                    return 2
+                if keys_pressed[pygame.K_3] == True:
+                    return 3
+                if keys_pressed[pygame.K_4] == True:
+                    return 4
+                if keys_pressed[pygame.K_5] == True:
+                    return 5
+                if keys_pressed[pygame.K_6] == True:
+                    return 6
+                if keys_pressed[pygame.K_7] == True:
+                    return 7
+                if keys_pressed[pygame.K_8] == True:
+                    return 8
+                if keys_pressed[pygame.K_9] == True:
+                    return 9
+            else:
+                #The player entered an invalid key. Let's just not react
+                pass
+
 def increment(i,max):
     return (i+1)%max
 
-def setup(aantal_spelers, clock):
+def setup(aantal_spelers:int, clock):
     for i in range(aantal_spelers):
         key = "speler " + str(i + 1)
         value = Speler("Spler " + str(i + 1), 200)
         Spelers.update({key: value})
-    print(Spelers)
-    WIN.fill(BLACK)
-    tekst1 = GLOBAL_FONT.render("De volgende spelers doen mee: ", 1, WHITE)
-    WIN.blit(tekst1, (PADDING, PADDING))
-    i = 0
-    for naam in Spelers:
-        i += 1
-        tekst = GLOBAL_FONT.render(naam + " " + Spelers[naam].naam, 1, WHITE)
-        WIN.blit(tekst, (PADDING, PADDING + 20 * i))
-    tekst2 = GLOBAL_FONT.render("Druk op spatie om te beginnen", 1, WHITE)
-    WIN.blit(tekst2, (PADDING + 400, PADDING))
-    pygame.display.update()
-
-    spacebar_pressed = False
-    while not spacebar_pressed:
-        clock.tick(FPS)
-        print("in while loop code 2")
+    #print(Spelers)
+    while True:
+        WIN.fill(BLACK)
+        tekst1 = GLOBAL_FONT.render("De volgende spelers doen mee: ", 1, WHITE)
+        WIN.blit(tekst1, (PADDING, PADDING))
+        i = 0
+        for naam in Spelers:
+            i += 1
+            tekst = GLOBAL_FONT.render(naam + " " + Spelers[naam].naam, 1, WHITE)
+            WIN.blit(tekst, (PADDING, PADDING + 20 * i))
+        tekst2 = GLOBAL_FONT.render("Druk op spatie om te beginnen", 1, WHITE)
+        WIN.blit(tekst2, (PADDING + 400, PADDING))
+        pygame.display.update()
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                print("de game is klaar")
+            if event.type== pygame.QUIT:
                 pygame.quit()
-        keys_pressed = pygame.key.get_pressed()
-        if keys_pressed[pygame.K_SPACE] == True:
-            spacebar_pressed = True
-    state=1
+                sys.exit()
+            elif event.type==pygame.KEYDOWN:
+                keys_pressed=pygame.key.get_pressed()
+                if keys_pressed[pygame.K_SPACE]==True:
+                    break #continue #or break??
 
 def potje(Spelers,deler,aantal_spelers):
     pot=0 #keep track of pot
